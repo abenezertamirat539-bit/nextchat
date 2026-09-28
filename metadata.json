@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Web",
+  "description": "A functional, responsive Telegram-like web application featuring 1-on-1 chats, groups, channels, stories with Star & Premium limits, phone/Google auth, and dark/light themes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

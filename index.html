@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>NexChat</title>
+    <meta name="description" content="NexChat - A fast, modern messaging web application featuring 1-on-1 chats, groups, channels, stories with Star & Premium limits, phone/Google auth, and dark/light themes." />
+    <meta property="og:title" content="NexChat" />
+    <meta property="og:description" content="NexChat - A fast, modern messaging web application featuring 1-on-1 chats, groups, channels, stories with Star & Premium limits, phone/Google auth, and dark/light themes." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <div id="app" class="app-container">
+      <!-- SIDEBAR -->
+      <aside id="sidebar" class="sidebar">
+        <!-- Sidebar Header -->
+        <header class="sidebar-header">
+          <button id="btn-menu" class="icon-btn" title="Main Menu" aria-label="Main Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="search-bar-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--tg-text-muted);">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search chats or messages" autocomplete="off" />
+          </div>
+
+          <button id="btn-new-chat-menu" class="icon-btn" title="New Message / Group" aria-label="New Message or Group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          </button>
+        </header>
+
+        <!-- Dropdown Context Menu -->
+        <div id="main-menu" class="context-menu">
+          <button class="context-menu-item" id="menu-saved-messages">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            <span>Saved Messages</span>
+          </button>
+          <button class="context-menu-item" id="menu-new-group">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>New Group</span>
+          </button>
+          <button class="context-menu-item" id="menu-new-channel">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span>New Channel</span>
+          </button>
+          <div class="context-menu-divider"></div>
+          <button class="context-menu-item" id="menu-profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>Profile & Settings</span>
+          </button>
+          <button class="context-menu-item" id="menu-stars-premium">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffb703" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>NexChat Stars & Premium</span>
+          </button>
+          <button class="context-menu-item" id="menu-theme-toggle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <span id="theme-toggle-label">Switch to Light Mode</span>
+          </button>
+          <div class="context-menu-divider"></div>
+          <button class="context-menu-item" id="menu-auth">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <span>Switch / Log Out</span>
+          </button>
+        </div>
+
+        <!-- Stories Bar -->
+        <section id="stories-bar" class="stories-bar" aria-label="Stories">
+          <!-- Story items populated dynamically via JS -->
+        </section>
+
+        <!-- Chat Folder Tabs -->
+        <nav class="chat-tabs" aria-label="Chat Folders">
+          <button class="chat-tab-btn active" data-tab="all">All</button>
+          <button class="chat-tab-btn" data-tab="direct">Personal</button>
+          <button class="chat-tab-btn" data-tab="group">Groups</button>
+          <button class="chat-tab-btn" data-tab="channel">Channels</button>
+        </nav>
+
+        <!-- Chat List -->
+        <ul id="chat-list" class="chat-list" role="list">
+          <!-- Populated by JavaScript -->
+        </ul>
+      </aside>
+
+      <!-- ACTIVE CHAT MAIN VIEW -->
+      <main id="chat-main" class="chat-main">
+        <!-- Chat Header -->
+        <header class="chat-header">
+          <div class="chat-header-user">
+            <button id="btn-back-mobile" class="icon-btn btn-back-mobile" aria-label="Back to chat list">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            <div id="header-avatar" class="avatar" style="width: 42px; height: 42px;"></div>
+            <div class="chat-header-details">
+              <div id="header-title" class="chat-header-name">Select a Chat</div>
+              <div id="header-status" class="chat-header-status">...</div>
+            </div>
+          </div>
+
+          <div class="chat-header-actions">
+            <button id="btn-call" class="icon-btn" title="Audio Call" aria-label="Call">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </button>
+            <button id="btn-chat-search" class="icon-btn" title="Search in Chat" aria-label="Search">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button id="btn-chat-info" class="icon-btn" title="Chat Info" aria-label="Info">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Messages Container -->
+        <section id="messages-container" class="messages-container" aria-label="Messages">
+          <!-- Populated by JavaScript -->
+        </section>
+
+        <!-- Typing Indicator -->
+        <div id="typing-box" class="typing-box">
+          <span id="typing-text">typing...</span>
+          <div class="typing-dots">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+        </div>
+
+        <!-- Chat Composer -->
+        <footer class="chat-composer">
+          <!-- Emoji Tray Picker -->
+          <div id="emoji-tray" class="emoji-tray">
+            <button type="button">👍</button>
+            <button type="button">❤️</button>
+            <button type="button">🔥</button>
+            <button type="button">🎉</button>
+            <button type="button">⭐</button>
+            <button type="button">🚀</button>
+            <button type="button">😂</button>
+            <button type="button">😍</button>
+            <button type="button">👏</button>
+            <button type="button">🙏</button>
+            <button type="button">✨</button>
+            <button type="button">💯</button>
+          </div>
+
+          <button id="btn-emoji" class="icon-btn" title="Insert Emoji" aria-label="Emoji">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+          </button>
+
+          <input type="file" id="file-input" accept="image/*" style="display: none;" />
+          <button id="btn-attach" class="icon-btn" title="Attach file or photo" aria-label="Attach">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+          </button>
+
+          <div class="composer-input-wrapper">
+            <input type="text" id="message-input" placeholder="Write a message..." autocomplete="off" />
+          </div>
+
+          <button id="btn-send" class="btn-send-primary" title="Send message" aria-label="Send or Voice">
+            <svg id="icon-voice" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            <svg id="icon-send" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </footer>
+      </main>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- AUTHENTICATION & SIGNUP MODAL -->
+    <div id="auth-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div id="auth-modal-title" class="modal-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--tg-accent)" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <span>Log in to NexChat</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Step 1: Phone or Google option -->
+          <div id="auth-step-phone">
+            <p style="font-size: 13.5px; color: var(--tg-text-secondary); margin-bottom: 14px;">
+              Please enter your country code and your phone number to sign in or register.
+            </p>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" for="auth-country-select">Country</label>
+              <select id="auth-country-select" class="form-select">
+                <option value="+1">United States (+1)</option>
+                <option value="+44">United Kingdom (+44)</option>
+                <option value="+49">Germany (+49)</option>
+                <option value="+33">France (+33)</option>
+                <option value="+91">India (+91)</option>
+                <option value="+251">Ethiopia (+251)</option>
+                <option value="+55">Brazil (+55)</option>
+                <option value="+81">Japan (+81)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="form-label" for="auth-phone-input">Phone Number</label>
+              <input type="tel" id="auth-phone-input" class="form-input" placeholder="e.g. 555 019 2834" value="555 019 2834" />
+            </div>
+
+            <button id="btn-auth-send-sms" class="btn-primary" style="width: 100%; height: 42px;">
+              <span>Next (Send Code)</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin: 18px 0;">
+              <div style="flex: 1; height: 1px; background: var(--tg-border);"></div>
+              <span style="font-size: 12px; color: var(--tg-text-secondary); text-transform: uppercase;">or</span>
+              <div style="flex: 1; height: 1px; background: var(--tg-border);"></div>
+            </div>
+
+            <!-- Google Login Button -->
+            <button id="btn-auth-google" class="btn-secondary" style="width: 100%; height: 42px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500;">
+              <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+          </div>
+
+          <!-- Step 2: Verification Code -->
+          <div id="auth-step-code" style="display: none;">
+            <p style="font-size: 13.5px; color: var(--tg-text-secondary); margin-bottom: 12px;">
+              We have sent a code to <strong id="auth-display-sent-phone" style="color: var(--tg-text-primary);">+1 555 019 2834</strong>.
+            </p>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="form-label" for="auth-code-input">6-digit Code (Mock SMS: 123456)</label>
+              <input type="text" id="auth-code-input" class="form-input" placeholder="123456" maxlength="6" style="letter-spacing: 6px; font-size: 20px; text-align: center;" value="123456" />
+            </div>
+
+            <div style="font-size: 12px; color: var(--tg-text-secondary); text-align: center; margin-bottom: 16px;">
+              Resend code in <span id="auth-resend-timer" style="color: var(--tg-accent); font-weight: 600;">58s</span>
+            </div>
+
+            <button id="btn-auth-verify-code" class="btn-primary" style="width: 100%; height: 42px;">
+              <span>Verify & Continue</span>
+            </button>
+
+            <button id="btn-auth-back-to-phone" class="btn-secondary" style="width: 100%; height: 38px; margin-top: 8px;">
+              <span>Change phone number</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE SETTINGS & STAR SYSTEM MODAL -->
+    <div id="profile-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+      <div class="modal-card" style="max-width: 480px;">
+        <div class="modal-header">
+          <div id="profile-modal-title" class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Edit Profile</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Avatar Section -->
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 6px;">
+            <div id="profile-avatar-preview" class="avatar" style="width: 68px; height: 68px; font-size: 24px;"></div>
+            <div>
+              <input type="file" id="profile-avatar-file" accept="image/*" style="display: none;" />
+              <button id="btn-change-avatar" class="btn-secondary" style="font-size: 13px; padding: 6px 12px;">
+                Upload New Photo
+              </button>
+              <div style="font-size: 11px; color: var(--tg-text-secondary); margin-top: 4px;">Square JPG, PNG or WebP</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="profile-name-input">Display Name</label>
+            <input type="text" id="profile-name-input" class="form-input" placeholder="Your Name" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="profile-username-input">Username (@)</label>
+            <div style="position: relative; display: flex; align-items: center;">
+              <span style="position: absolute; left: 12px; color: var(--tg-text-secondary);">@</span>
+              <input type="text" id="profile-username-input" class="form-input" style="padding-left: 28px; width: 100%;" placeholder="username" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="profile-bio-input">Bio</label>
+            <textarea id="profile-bio-input" class="form-textarea" placeholder="A few words about you..."></textarea>
+          </div>
+
+          <!-- NexChat Stars & Premium Section -->
+          <div style="border: 1px solid var(--tg-border); border-radius: 12px; padding: 14px; background: var(--tg-bg-surface); margin-top: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 18px;">⭐</span>
+                <span style="font-weight: 600; font-size: 14px;">NexChat Stars</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span id="profile-stars-balance" style="font-weight: 700; color: var(--tg-star); font-size: 15px;">15 Stars</span>
+                <button id="btn-open-stars-shop" class="btn-secondary" style="padding: 4px 8px; font-size: 12px;">+ Buy Stars</button>
+              </div>
+            </div>
+
+            <!-- Premium Status & Story Rules Card -->
+            <div id="profile-premium-card" style="padding: 12px; border-radius: 10px; background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.25);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-weight: 600; font-size: 13.5px;" id="profile-tier-badge">Free Plan</span>
+                  <span id="profile-premium-star-icon" style="display: none; font-size: 14px;">⭐</span>
+                </div>
+                <button id="btn-toggle-premium" class="btn-primary" style="padding: 5px 12px; font-size: 12px;">
+                  Unlock Premium (10 ⭐)
+                </button>
+              </div>
+
+              <div id="profile-story-quota-text" style="font-size: 12px; color: var(--tg-text-secondary); line-height: 1.4;">
+                • Stories limit: max 4 days per week (2/4 days used).
+                <br />• Upgrade to NexChat Premium for 10 Stars to post all 7 days of the week!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary close-modal-btn">Cancel</button>
+          <button id="btn-save-profile" class="btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE GROUP MODAL -->
+    <div id="create-group-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="group-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div id="group-modal-title" class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>New Group</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="group-title-input">Group Name</label>
+            <input type="text" id="group-title-input" class="form-input" placeholder="e.g. Design Team Chat" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="group-desc-input">Description (optional)</label>
+            <textarea id="group-desc-input" class="form-textarea" placeholder="What is this group about?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Group Type</label>
+            <div style="display: flex; gap: 12px; margin-top: 4px;">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; cursor: pointer;">
+                <input type="radio" name="group-type" value="public" checked />
+                <span>Public Group</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; cursor: pointer;">
+                <input type="radio" name="group-type" value="private" />
+                <span>Private Group</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Add Members</label>
+            <div style="border: 1px solid var(--tg-border); border-radius: 10px; max-height: 120px; overflow-y: auto; padding: 8px;">
+              <label style="display: flex; align-items: center; gap: 8px; padding: 6px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked />
+                <span>Pavel Durov (@durov)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; padding: 6px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" checked />
+                <span>Elena Rostova (@elena_design)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary close-modal-btn">Cancel</button>
+          <button id="btn-submit-group" class="btn-primary">Create Group</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE CHANNEL MODAL -->
+    <div id="create-channel-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="channel-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div id="channel-modal-title" class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span>New Channel</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="channel-title-input">Channel Name</label>
+            <input type="text" id="channel-title-input" class="form-input" placeholder="e.g. Daily Tech Highlights" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="channel-desc-input">Description</label>
+            <textarea id="channel-desc-input" class="form-textarea" placeholder="Channels are a one-to-many broadcast tool..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Channel Type</label>
+            <div style="display: flex; gap: 12px; margin-top: 4px;">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; cursor: pointer;">
+                <input type="radio" name="channel-type" value="public" checked />
+                <span>Public Channel</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; cursor: pointer;">
+                <input type="radio" name="channel-type" value="private" />
+                <span>Private Channel</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary close-modal-btn">Cancel</button>
+          <button id="btn-submit-channel" class="btn-primary">Create Channel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORY UPLOAD MODAL -->
+    <div id="story-upload-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="story-upload-title">
+      <div class="modal-card" style="max-width: 480px;">
+        <div class="modal-header">
+          <div id="story-upload-title" class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Post a Story</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Weekly Posting Quota Card -->
+          <div id="story-quota-alert-box" style="padding: 12px; border-radius: 10px; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span id="story-quota-title" style="font-weight: 600; font-size: 13px;">Free Tier Quota</span>
+              <span id="story-quota-badge" style="font-size: 12px; font-weight: 600; color: var(--tg-accent);">2 / 4 Days Used</span>
+            </div>
+            <div id="story-quota-desc" style="font-size: 12px; color: var(--tg-text-secondary); margin-top: 4px;">
+              Free users can post stories on a maximum of 4 distinct days per week. NexChat Premium users enjoy unlimited 7/7 day posting!
+            </div>
+          </div>
+
+          <!-- Photo Selection -->
+          <div class="form-group">
+            <label class="form-label">Choose Photo</label>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px;" id="story-preset-grid">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=300&q=80" alt="Preset 1" class="preset-story-img" style="width: 100%; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--tg-accent);" />
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=300&q=80" alt="Preset 2" class="preset-story-img" style="width: 100%; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;" />
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Preset 3" class="preset-story-img" style="width: 100%; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;" />
+              <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=300&q=80" alt="Preset 4" class="preset-story-img" style="width: 100%; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent;" />
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="file" id="story-custom-file-input" accept="image/*" style="display: none;" />
+              <button id="btn-upload-custom-story" class="btn-secondary" style="font-size: 13px; padding: 6px 12px;">
+                Or Upload from Device
+              </button>
+              <span id="story-selected-file-name" style="font-size: 12px; color: var(--tg-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+            </div>
+          </div>
+
+          <!-- Day of Week selector for testing weekly limits -->
+          <div class="form-group">
+            <label class="form-label" for="story-day-select">Story Day (Weekly Limit Enforcement)</label>
+            <select id="story-day-select" class="form-select">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+            <div style="font-size: 11px; color: var(--tg-text-secondary); margin-top: 3px;">
+              Select any day to simulate posting throughout the current week.
+            </div>
+          </div>
+
+          <!-- Story Caption -->
+          <div class="form-group">
+            <label class="form-label" for="story-caption-input">Caption</label>
+            <textarea id="story-caption-input" class="form-textarea" placeholder="Add a caption to your story..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary close-modal-btn">Cancel</button>
+          <button id="btn-submit-story" class="btn-primary">Post Story</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORY VIEWER MODAL -->
+    <div id="story-viewer-modal" class="story-viewer-modal" role="dialog" aria-modal="true" aria-label="Story Viewer">
+      <div class="story-viewer-container">
+        <!-- Progress Bars -->
+        <div class="story-progress-bar-wrapper">
+          <div class="story-progress-segment">
+            <div id="story-progress-fill" class="story-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Header -->
+        <div class="story-viewer-header">
+          <div class="story-author-info">
+            <img id="story-viewer-avatar" src="" alt="Author" class="story-author-avatar" />
+            <div class="story-author-text">
+              <div id="story-viewer-name" class="story-author-name">Pavel Durov</div>
+              <div id="story-viewer-time" class="story-time-text">2 hours ago</div>
+            </div>
+          </div>
+
+          <button id="btn-close-story-viewer" class="icon-btn" style="color: #fff; background: rgba(0,0,0,0.4);" aria-label="Close Story">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <!-- Content -->
+        <div class="story-viewer-content" id="story-viewer-tap-area">
+          <img id="story-viewer-media" src="" alt="Story Media" class="story-media-img" />
+          <div id="story-viewer-caption" class="story-caption-overlay"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="story-viewer-footer">
+          <input type="text" id="story-reply-input" class="story-reply-input" placeholder="Send a message..." autocomplete="off" />
+          <button id="btn-story-like" class="icon-btn" style="color: #fff; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);" aria-label="Like Story">
+            <svg id="story-like-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </button>
+          <button id="btn-story-send-reply" class="icon-btn" style="color: #fff; background: var(--tg-accent);" aria-label="Send Reply">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEXCHAT STARS SHOP & PREMIUM MODAL -->
+    <div id="stars-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stars-modal-title">
+      <div class="modal-card" style="max-width: 440px;">
+        <div class="modal-header">
+          <div id="stars-modal-title" class="modal-title">
+            <span style="font-size: 20px;">⭐</span>
+            <span>NexChat Stars & Premium</span>
+          </div>
+          <button class="icon-btn close-modal-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div style="text-align: center; padding: 10px 0;">
+            <div style="font-size: 42px; line-height: 1; margin-bottom: 8px;">⭐</div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Buy NexChat Stars</h3>
+            <p style="font-size: 13px; color: var(--tg-text-secondary); max-width: 320px; margin: 0 auto;">
+              Use Stars to unlock NexChat Premium (10 Stars), send gifts to creators, and enjoy unrestricted 7-day story posting.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-buy-stars-pack btn-secondary" data-stars="10" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">⭐</span>
+                <div style="text-align: left;">
+                  <div style="font-weight: 600; font-size: 14px;">10 Stars</div>
+                  <div style="font-size: 11px; color: var(--tg-text-secondary);">Exact cost for NexChat Premium</div>
+                </div>
+              </div>
+              <span class="btn-primary" style="padding: 4px 12px; font-size: 13px;">Add 10 ⭐</span>
+            </button>
+
+            <button class="btn-buy-stars-pack btn-secondary" data-stars="50" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">⭐</span>
+                <div style="text-align: left;">
+                  <div style="font-weight: 600; font-size: 14px;">50 Stars</div>
+                  <div style="font-size: 11px; color: var(--tg-text-secondary);">Most Popular Bundle</div>
+                </div>
+              </div>
+              <span class="btn-primary" style="padding: 4px 12px; font-size: 13px;">Add 50 ⭐</span>
+            </button>
+
+            <button class="btn-buy-stars-pack btn-secondary" data-stars="100" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">⭐</span>
+                <div style="text-align: left;">
+                  <div style="font-weight: 600; font-size: 14px;">100 Stars</div>
+                  <div style="font-size: 11px; color: var(--tg-text-secondary);">Power Creator Bundle</div>
+                </div>
+              </div>
+              <span class="btn-primary" style="padding: 4px 12px; font-size: 13px;">Add 100 ⭐</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary close-modal-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13.5px; z-index: 300; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s; opacity: 0; pointer-events: none; backdrop-filter: blur(8px); box-shadow: var(--tg-shadow);"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
